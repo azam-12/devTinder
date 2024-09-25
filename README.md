@@ -19,7 +19,8 @@ ok: Yes
     or from terminal git add . (this will add all the files) or git add filename1 filename2 (to add in group) 
         then git commit -n "message" 
 
-
+# To push all the code to github or remote
+    First go to your account and create new repository devTinder public repository and keep all as it is.
 
 # npm i express
 ep 3 @ -37
