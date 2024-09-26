@@ -2,40 +2,31 @@ const express = require("express");
 
 const app = express();
 
-app.get("/a(bc)+d", (req, res) => {
-    res.send({firstname: "Azam", lastName: "Tamboli"});
-});
-
-app.get("/ab*cd", (req, res) => {
-    res.send({firstname: "Azam", lastName: "Tamboli"});
-});
-
-app.get("/ab+c", (req, res) => {
-    res.send({firstname: "Azam", lastName: "Tamboli"});
-});
-
-
-app.get("/ab?c", (req, res) => {
-    res.send({firstname: "Azam", lastName: "Tamboli"});
-});
-
-app.get(/a/, (req, res) => {
-    res.send({firstname: "Azam", lastName: "Tamboli"});
-});
-
-app.get(/.*fly$/, (req, res) => {
-    res.send({firstname: "Azam", lastName: "Tamboli"});
-});
-
-app.get("/user?userId=101&password=testing", (req, res) => {
-    console.log(req.body);
-    res.send({firstname: "Azam", lastName: "Tamboli"});
-});
-
-app.get("/user/:userId/:name/:password", (req, res) => {
-    console.log(req.params);
-    res.send({firstname: "Azam", lastName: "Tamboli"});
-});
+app.get("/user", (req, res, next) => {
+        console.log("Handling the route user 1!!");
+        // res.send("1st Response");
+        next();
+    },
+    [(req, res, next) => {
+        console.log("Handling the route user 2!!");
+        // res.send("2nd Response");
+        next();
+    },
+    (req, res, next) => {
+        console.log("Handling the route user 3!!");
+        // res.send("3rd Response");
+        next();
+    }],
+    (req, res, next) => {
+        console.log("Handling the route user 4!!");
+        // res.send("4th Response");
+        next();
+    },
+    (req, res, next) => {
+        console.log("Handling the route user 5!!");
+        res.send("5th Response");
+    }
+);
 
 
 app.listen(7777, () => {
