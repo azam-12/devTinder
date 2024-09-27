@@ -1,38 +1,28 @@
 const express = require("express");
-const { adminAuth, userAuth } = require("./middleware/auth")
 
 const app = express();
 
+// error handler function
+app.use("/", (err, req, res, next) => {
+    if(err){
+        res.status(500).send("Something went wrong 1 !!!");
+    }
+});
 
+// request handler function
+app.get("/getUserData", (req, res) => {
 
-app.use("/admin", adminAuth);
-
-app.use("/admin/getAllData", (req, res) => {
-    res.send("Admin Data sent!!!")
+    throw new Error("error message of thrown error");
+    res.status(500).send("User Data sent!!!");
 });
 
 
-
-app.use("/user", userAuth);
-
-app.get("/user/getAllData", (req, res) => {
-    res.send("User Data Sent!!!");
-});
-
-app.post("/user/createUser", (req, res) => {
-    res.send("User Created!!!");
-});
-
-app.put("/user/modifyUser", (req, res) => {
-    res.send("User modified using put!!!");
-});
-
-app.patch("/user/editUser", (req, res) => {
-    res.send("User edited using patch!!!");
-});
-
-app.delete("/user/delete", (req, res) => {
-    res.send("User deleted successfully!!!");
+// when  below error handler commented and then not commented
+app.use("/", (err, req, res, next) => {
+    if(err){
+        console.log(err.message);
+        res.status(500).send("Something went wrong 2 !!!");
+    }
 });
 
 
