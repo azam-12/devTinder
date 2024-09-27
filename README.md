@@ -22,5 +22,16 @@ ok: Yes
 # To push all the code to github or remote
     First go to your account and create new repository devTinder public repository and keep all as it is.
 
+# Install express
+    npm i express
+
+# Install nodemon and update scripts inside package.json
+    npm i nodemon
+
+# Install mongoose
+    npm i mongoose
+
+
+
 # npm i express
 ep 3 @ -37
