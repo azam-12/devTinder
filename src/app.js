@@ -19,6 +19,7 @@ connectDB()
         console.log("Database cannot be connected!!!");
     });
 
+
 app.post("/signup", async(req, res) => {
     const user = new User(req.body);
 
@@ -30,3 +31,52 @@ app.post("/signup", async(req, res) => {
     }
 });
 
+
+app.get("/user", async(req, res) => {
+    
+    try {
+        // find() will find all the user with given emailId
+        // const users = await User.find({ emailId: req.body.emailId});
+
+        // findOne() will find only one user with given emailId
+        const users = await User.findOne({ emailId: req.body.emailId});
+        if(!users){
+            res.status(404).send("User not found");
+        }else{
+            res.send(users);
+        }
+
+    } catch (err) {
+        res.status(400).send("Something went wrong!!!")
+    }
+});
+
+
+
+app.get("/feed", async(req, res) => {
+    try {
+        // will return all the users
+        const users = await User.find({});
+        if(!users){
+            res.status(404).send("User not found!!!");
+        }else{
+            res.send(users);
+        }
+    } catch (err) {
+        res.status(400).send("Something went wrong!!!")
+    }
+});
+
+
+app.get("/userById", async(req, res) => {
+    try {
+        const users = await User.findById({ _id: req.body.id });
+        if(!users){
+            res.status(404).send("User not found!!!");
+        }else{
+            res.send(users);
+        }
+    } catch (err) {
+        res.status(400).send("Something went wrong!!!");
+    }
+});
