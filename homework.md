@@ -1,3 +1,4 @@
+Episode -01
 - Create a repository
 - Initialize the repository
 - node_modules, package.json, package_lock.json?
@@ -11,6 +12,7 @@
 - Difference between tilde and caret (~ vs ^)
 
 
+Episode -02
 - Initialize git
 - .gitignore
 - Create a remote repo on github
@@ -24,6 +26,8 @@
 - Reading the query params in the routes
 - Reading the dynamic routes  
 
+
+Episode -03
 - Multiple route handlers - Play with the code
 - next()
 - next function and errors along with res.send()
@@ -35,6 +39,8 @@
 - Write a dummy auth middleware for all user routes except /user/login
 - Error handling using app.use("/", (err, req, res, next) = {})
 
+
+Episode -04
 - Create a free cluster on MomgoDB official website aka Mongo Atlas
 - Install Mongoose library
 - Connect your application to the Database "Connection-url"/devTinder
@@ -44,6 +50,8 @@
 - Push some documents using API calls from postman
 - Error handling using try-catch
 
+
+Episode -05
 - JS object vs JSON (Difference)
 - Add the express.json middleware to your app
 - Make your signup API dynamic from the end user
@@ -51,3 +59,19 @@
 - API - Get user by email
 - API - Feed API - Get/feed - get all the users from the database
 - API - Get user by ID
+- Create a user delete API
+- Difference between PATCH and PUT
+- API - Update a user
+- Explore the Mongoose Documentation for Model methods
+- What are options in a Model.findOneAndUpdate method, explore more about it
+- API - Update the user with email ID
+
+
+Episode -06
+- Explore Schema Type options from the documentation
+- Add required, unique, minLength, min, trim, lowercase,
+- Add Default
+- Create custom validation function for gender
+- Improve the DB Schema - PUT appropriate validations on each field in Schema
+- Add timestamps to the user Schema
+
