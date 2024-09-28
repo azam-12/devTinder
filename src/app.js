@@ -17,19 +17,24 @@ connectDB()
     console.log("Database cannot be connected!!!");
   });
 
-
 // create user API
 app.post("/signup", async (req, res) => {
   const user = new User(req.body);
 
   try {
+    const ALLOWED_UPDATES = ["firstName", "emailId", "password"];
+    const isUpdateAllowed = Object.keys(user).every((k) =>
+      ALLOWED_UPDATES.includes(k)
+    );
+    if (!isUpdateAllowed) {
+      throw new Error("Cannot create user, mandatory fields are missing!!!");
+    }
     await user.save();
     res.send("User created successfully!!!");
-  } catch (error) {
-    res.status(400).send("Error while saving user" + error.message);
+  } catch (err) {
+    res.status(400).send("Error while saving user: " + err.message);
   }
 });
-
 
 // get single user API
 app.get("/user", async (req, res) => {
@@ -49,7 +54,6 @@ app.get("/user", async (req, res) => {
   }
 });
 
-
 // get all the users API
 app.get("/feed", async (req, res) => {
   try {
@@ -65,7 +69,6 @@ app.get("/feed", async (req, res) => {
   }
 });
 
-
 // get user by ID API
 app.get("/userById", async (req, res) => {
   try {
@@ -79,7 +82,6 @@ app.get("/userById", async (req, res) => {
     res.status(400).send("Something went wrong!!!");
   }
 });
-
 
 // delete user API
 app.delete("/user", async (req, res) => {
@@ -97,44 +99,80 @@ app.delete("/user", async (req, res) => {
   }
 });
 
-
 // update user by ID API
-app.patch("/user", async(req, res) => {
-    try {
-        const userId = req.body.userId;
-        const data = req.body;
-        // The uncommented line is shorthand for commented line
-        // const user = User.findByIdAndUpdate({ _id: userId }, data)
-        const user = await User.findByIdAndUpdate(userId, data, {
-            returnDocument:"after", runValidators: true }
-        );
-        if(user){
-            res.send(user + "\n User updated successfully!!");
-        }else{
-            res.status(404).send("User not found!!!");
-        }
-    } catch (err) {
-        res.status(400).send("UPDATE FAILED:" + err.message);
-    }
-});
+app.patch("/user/:userId", async (req, res) => {
+  const userId = req.params?.userId;
+  const data = req.body;
 
+  try {
+    if(data.skills.length > 10){
+        throw new Error("Skills cannot be more than 10!");
+    }
+    const ALLOWED_UPDATES = [
+      "gender",
+      "about",
+      "age",
+      "skills",
+      "photoUrl",
+      "password",
+    ];
+    const isUpdateAllowed = Object.keys(data).every((k) =>
+      ALLOWED_UPDATES.includes(k)
+    );
+
+    if (!isUpdateAllowed) {
+      throw new Error("Update not allowed!!!");
+    }
+
+    // The uncommented line is shorthand for commented line
+    // const user = User.findByIdAndUpdate({ _id: userId }, data)
+    const user = await User.findByIdAndUpdate(userId, data, {
+      returnDocument: "after",
+      runValidators: true,
+    });
+    if (user) {
+      res.send(user + "\n User updated successfully!!");
+    } else {
+      res.status(404).send("User not found!!!");
+    }
+  } catch (err) {
+    res.status(400).send("UPDATE FAILED: " + err.message);
+  }
+});
 
 // update user by email ID API
-app.patch("/userByEmailId", async(req, res) => {
-    const emailId = req.body.emailId;
-    const data = req.body; 
-    try {
-        const user = await User.findOneAndUpdate( { emailId }, data, {   
-                returnDocument: "before", runValidators: true 
-            }
-        );
-        if(user){
-            res.send(user + "\n User updated successfully!!!");
-        }else{
-            res.status(400).send("User not found!!!");
-        }
-    } catch (error) {
-        res.status(400).send("Something went wrong!!!");
-    }
-});
+app.patch("/userByEmailId/:emailId", async (req, res) => {
+  const emailId = req.params?.emailId;
+  const data = req.body;
 
+  try {
+    if(data.skills.length > 10){
+        throw new Error("Skills cannot be more than 10!");
+    }
+    const ALLOWED_UPDATES = [
+      "gender",
+      "about",
+      "age",
+      "skills",
+      "photoUrl",
+      "password",
+    ];
+    const isUpdateAllowed = Object.keys(data).every((k) =>
+      ALLOWED_UPDATES.includes(k)
+    );
+    if (!isUpdateAllowed) {
+      throw new Error("Update not allowed!!!");
+    }
+    const user = await User.findOneAndUpdate({ emailId }, data, {
+      returnDocument: "after",
+      runValidators: true,
+    });
+    if (user) {
+      res.send(user + "\n User updated successfully!!!");
+    } else {
+      res.status(400).send("User not found!!!");
+    }
+  } catch (error) {
+    res.status(400).send("Error while updating user: " + error.message);
+  }
+});

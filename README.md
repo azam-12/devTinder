@@ -31,7 +31,8 @@ ok: Yes
 # Install mongoose
     npm i mongoose
 
-
+# Intall validator
+    npm i validator
 
 # npm i express
 ep 3 @ -37

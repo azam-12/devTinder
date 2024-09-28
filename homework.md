@@ -1,4 +1,4 @@
-Episode -01
+Episode -03
 - Create a repository
 - Initialize the repository
 - node_modules, package.json, package_lock.json?
@@ -12,7 +12,7 @@ Episode -01
 - Difference between tilde and caret (~ vs ^)
 
 
-Episode -02
+Episode -04
 - Initialize git
 - .gitignore
 - Create a remote repo on github
@@ -27,7 +27,7 @@ Episode -02
 - Reading the dynamic routes  
 
 
-Episode -03
+Episode -05
 - Multiple route handlers - Play with the code
 - next()
 - next function and errors along with res.send()
@@ -40,7 +40,7 @@ Episode -03
 - Error handling using app.use("/", (err, req, res, next) = {})
 
 
-Episode -04
+Episode -06
 - Create a free cluster on MomgoDB official website aka Mongo Atlas
 - Install Mongoose library
 - Connect your application to the Database "Connection-url"/devTinder
@@ -51,7 +51,7 @@ Episode -04
 - Error handling using try-catch
 
 
-Episode -05
+Episode -07
 - JS object vs JSON (Difference)
 - Add the express.json middleware to your app
 - Make your signup API dynamic from the end user
@@ -67,11 +67,12 @@ Episode -05
 - API - Update the user with email ID
 
 
-Episode -06
+Episode -08
 - Explore Schema Type options from the documentation
 - Add required, unique, minLength, min, trim, lowercase,
 - Add Default
 - Create custom validation function for gender
 - Improve the DB Schema - PUT appropriate validations on each field in Schema
 - Add timestamps to the user Schema
-
+- Add API level validations on PATCH request and signup POST request
+- Data Sanitizing - Add API validations for each field 
