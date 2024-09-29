@@ -19,20 +19,27 @@ connectDB()
 
 // create user API
 app.post("/signup", async (req, res) => {
-  const user = new User(req.body);
-
+  const data = req.body;  
+  
   try {
-    const ALLOWED_UPDATES = ["firstName", "emailId", "password"];
-    const isUpdateAllowed = Object.keys(user).every((k) =>
-      ALLOWED_UPDATES.includes(k)
+    const ALLOWED_CREATE = [
+      "firstName",
+      "emailId",
+      "password"
+    ];
+    const isCreateAllowed = Object.keys(data).every((k) =>
+        ALLOWED_CREATE.includes(k)
     );
-    if (!isUpdateAllowed) {
+    console.log(data);
+    if (!isCreateAllowed) {
       throw new Error("Cannot create user, mandatory fields are missing!!!");
     }
+    const user = new User(data);
+    console.log(user);
     await user.save();
     res.send("User created successfully!!!");
   } catch (err) {
-    res.status(400).send("Error while saving user: " + err.message);
+    res.status(400).send("Error while creating user: " + err.message + "\n");
   }
 });
 
@@ -105,8 +112,8 @@ app.patch("/user/:userId", async (req, res) => {
   const data = req.body;
 
   try {
-    if(data.skills.length > 10){
-        throw new Error("Skills cannot be more than 10!");
+    if (data.skills.length > 10) {
+      throw new Error("Skills cannot be more than 10!");
     }
     const ALLOWED_UPDATES = [
       "gender",
@@ -146,8 +153,8 @@ app.patch("/userByEmailId/:emailId", async (req, res) => {
   const data = req.body;
 
   try {
-    if(data.skills.length > 10){
-        throw new Error("Skills cannot be more than 10!");
+    if (data.skills.length > 10) {
+      throw new Error("Skills cannot be more than 10!");
     }
     const ALLOWED_UPDATES = [
       "gender",

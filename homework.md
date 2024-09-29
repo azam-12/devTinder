@@ -76,3 +76,7 @@ Episode -08
 - Add timestamps to the user Schema
 - Add API level validations on PATCH request and signup POST request
 - Data Sanitizing - Add API validations for each field 
+- Install validator
+- Explore the validator library functions and use validator functions for password, email and photoUrl
+- NEVER TRUST req.body
+ 
