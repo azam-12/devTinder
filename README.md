@@ -34,5 +34,6 @@ ok: Yes
 # Intall validator
     npm i validator
 
-# npm i express
-ep 3 @ -37
+# Install bcrypt
+    npm i bcrypt
+

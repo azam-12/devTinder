@@ -80,3 +80,8 @@ Episode -08
 - Explore the validator library functions and use validator functions for password, email and photoUrl
 - NEVER TRUST req.body
  
+
+Episode -09
+- Validate data in Signup API
+- Install bcrypt package
+- Create a PassworhHash using bcrypt.hash and save the user with encrypted user

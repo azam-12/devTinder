@@ -1,6 +1,8 @@
 const express = require("express");
 const connectDB = require("./config/database");
 const User = require("./models/user");
+const { validateSignUpData } = require("./utils/validations");
+const bcrypt = require("bcrypt");
 
 const app = express();
 
@@ -19,23 +21,36 @@ connectDB()
 
 // create user API
 app.post("/signup", async (req, res) => {
-  const data = req.body;  
-  
+  const { firstName, lastName, emailId, password } = req.body;
+
   try {
-    const ALLOWED_CREATE = [
-      "firstName",
-      "emailId",
-      "password"
-    ];
-    const isCreateAllowed = Object.keys(data).every((k) =>
-        ALLOWED_CREATE.includes(k)
-    );
-    console.log(data);
-    if (!isCreateAllowed) {
-      throw new Error("Cannot create user, mandatory fields are missing!!!");
-    }
-    const user = new User(data);
-    console.log(user);
+    // 1st method
+    // const ALLOWED_CREATE = [
+    //   "firstName",
+    //   "emailId",
+    //   "password"
+    // ];
+    // const isCreateAllowed = Object.keys(data).every((k) =>
+    //     ALLOWED_CREATE.includes(k)
+    // );
+    // if (!isCreateAllowed) {
+    //   throw new Error("Cannot create user, mandatory fields are missing!!!");
+    // }
+
+    // 2 method explicitly write validation function
+    validateSignUpData(req);
+
+    // encrypt password
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: passwordHash,
+    });
+
+    console.log("length: "+ passwordHash.length)
     await user.save();
     res.send("User created successfully!!!");
   } catch (err) {
