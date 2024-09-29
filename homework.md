@@ -84,4 +84,6 @@ Episode -08
 Episode -09
 - Validate data in Signup API
 - Install bcrypt package
-- Create a PassworhHash using bcrypt.hash and save the user with encrypted user
+- Create a PassworhHash using bcrypt.hash and save the user with encrypted password
+- Create login API
+- Compare passwords and throw error if email or password is invalid

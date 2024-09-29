@@ -50,11 +50,32 @@ app.post("/signup", async (req, res) => {
       password: passwordHash,
     });
 
-    console.log("length: "+ passwordHash.length)
+    console.log("length: " + passwordHash.length);
     await user.save();
     res.send("User created successfully!!!");
   } catch (err) {
     res.status(400).send("Error while creating user: " + err.message + "\n");
+  }
+});
+
+// post login user
+app.post("/login", async (req, res) => {
+  const { emailId, password } = req.body;
+
+  try {
+    const user = await User.findOne({ emailId });
+    if (!user) {
+      throw new Error("Invalid Credentials !!!");
+    }
+
+    const isValidUser = await bcrypt.compare(password, user.password);
+    if (!isValidUser) {
+      throw new Error("Invalid Credentials !!!");
+    } else {
+      res.send("Login successfull!!!");
+    }
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
   }
 });
 
