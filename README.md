@@ -37,3 +37,10 @@ ok: Yes
 # Install bcrypt
     npm i bcrypt
 
+# Install cookie-parser
+    npm i cookie-parser
+
+# Install jsonwebtoken
+    npm i jsonwebtoken
+
+    
