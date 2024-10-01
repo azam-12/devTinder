@@ -30,8 +30,6 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minLength: 8,
-      maxLength: 100,
       unique: true,
       validate(value){
         if(!validator.isStrongPassword(value)){
@@ -84,6 +82,7 @@ userSchema.methods.getJWT  = async function () {
 
 
 userSchema.methods.validatePassword = async function (passwordInputByUser) {
+  const user = this;
   const passwordHash = user.password; 
 
   // 1st paramet shuould always be the password from the request and 2nd will from database
