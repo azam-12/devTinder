@@ -80,6 +80,8 @@ Episode -08
 - Explore the validator library functions and use validator functions for password, email and photoUrl
 - NEVER TRUST req.body
  
+### NOTE: If you face problem during user login a bugfix was made in episode 11 (bug was at useSchema.methods - this keyword)
+
 
 Episode -09
 - Validate data in Signup API
@@ -111,4 +113,8 @@ Episode -11
 - Create routes folder for managing auth, profile, request routers
 - Create authRouter, profileRouter, requestRouter
 - Import these routers in app.js
-  
+- Create POST /logout API
+- Create PATCH /profile/edit API
+- Test all APIs
+- Create PATCH /profile/password API => forgot password API
+- Make sure you validate all data in every POST, PATCH APIs

@@ -40,7 +40,6 @@ authRouter.post("/signup", async (req, res) => {
       // We have added handler method to off-load the method to user schema methods and becomes reusable (makes code look cleaner and best practise)
       const isPasswordValid = await user.validatePassword(password);
       if (!isPasswordValid) {
-        console.log("isPasswordValid: ", isPasswordValid);
         throw new Error("Invalid Credentials !!!");
       } else {
   
@@ -57,5 +56,9 @@ authRouter.post("/signup", async (req, res) => {
     }
   });
 
+  authRouter.post("/logout", (req, res) => {
+    res.cookie("token", null, { expires: new Date(Date.now()) });
+    res.send("Logout successfull!!!");
+  });
 
   module.exports = authRouter;
