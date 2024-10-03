@@ -118,3 +118,18 @@ Episode -11
 - Test all APIs
 - Create PATCH /profile/password API => forgot password API
 - Make sure you validate all data in every POST, PATCH APIs
+
+
+Episode -12
+- Create a connection Request Schema
+- Send Connection Request API
+- Proper validation od Data
+- Think about all corner cases and handle them
+- Ream more about $or query and $and query in mongoDB - https://www.mongodb.com/docs/manual/reference/operator/query-logical/
+- schema.pre("save") function in mongoose 
+- Read more about index in MongoDB
+- Why should we not create a lot of indexes in DB?
+- Why do we neeed index in DB?
+- What are the advantages and disadvantages of creating index?
+- Read this article about compound indexes - https://www.mongodb.com/docs/manual/core/indexes/index-types/index-compound/
+- ALWAYS THINK ABOUT CORNER CASES
