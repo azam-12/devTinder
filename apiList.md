@@ -16,13 +16,14 @@
  we can club above 2 requests into one since only interested and ignored changes dynamically
 - POST /request/send/:status/:userId
 
-
 - POST /request/review/accetped/:requestId
 - POST /request/review/rejected/:requestId
+we can club above 2 requests into one since only accepted and rejected changes dynamically
+- POST /request/review/:status/:requestId
 
 ## userRouter
+- GET /user/requests/received
 - GET /user/connections
-- GET /user/requests
 - GET /user/feed - Gets you the profile requests of other users on the platform
 
 

@@ -5,8 +5,6 @@ const { userAuth } = require("../middleware/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
 
-
-
 requestRouter.post(
   "/request/send/:status/:toUserId",
   userAuth,
@@ -33,26 +31,26 @@ requestRouter.post(
 
       const toUser = await User.findById(toUserId);
       if (!toUser) {
-        return res
-          .status(400)
-          .json({
-            message: "The user to whom request is sent does not exist!",
-          });
+        return res.status(400).json({
+          message: "The user to whom request is sent does not exist!",
+        });
       }
 
-      console.log("toUser: ", toUser)
+      console.log("toUser: ", toUser);
 
       const existingConnectionRequest = await ConnectionRequest.findOne({
         $or: [
           { fromUserId, toUserId },
-          { fromUserId: toUserId, toUserId: fromUserId }
-        ]
+          { fromUserId: toUserId, toUserId: fromUserId },
+        ],
       });
 
       if (existingConnectionRequest) {
         return res
           .status(400)
-          .send({ message: "Connection Request between the Users Already Exists!"});
+          .send({
+            message: "Connection Request between the Users Already Exists!",
+          });
       }
 
       const connectionRequest = new ConnectionRequest({
@@ -67,12 +65,64 @@ requestRouter.post(
         message:
           req.user.firstName +
           statusMessage +
-          toUser.firstName + "'s" +
+          toUser.firstName +
+          "'s" +
           " connection request!",
         data,
       });
     } catch (err) {
       res.status(400).send("ERROR: " + err.message);
+    }
+  }
+);
+
+requestRouter.post(
+  "/request/review/:status/:requestId",
+  userAuth,
+  async (req, res) => {
+    try {
+      const loggedInUser = req.user;
+      const { status, requestId } = req.params;
+
+      // validate status received in the API is valid and not gibberish
+      const allowedStatus = ["accepted", "rejected"];
+      if (!allowedStatus.includes(status)) {
+        return res.status(400).json({ message: "Invalid status!" });
+      }
+
+      /**
+       *  validate connection request is actually present in our DB and not a fake one by matching
+       *  1. received requestId with _id in DB so that it is not gibberish
+       *  2. toUserID from DB must be loggedInUserId
+       *  3. we can only update the status to accepted or rejected only if current status is interested
+       */
+      const connectionRequest = await ConnectionRequest.findOne({
+        _id: requestId,
+        toUserId: loggedInUser._id,
+        status: "interested",
+      });
+
+      if (!connectionRequest) {
+        return res
+          .status(404)
+          .json({ message: "The Connection Request not found!" });
+      }
+
+      connectionRequest.status = status;
+
+      const data = await connectionRequest.save();
+
+      res.json({
+        message:
+          "Connection request " +
+          status +
+          " by " +
+          loggedInUser.firstName +
+          "!",
+        data,
+      });
+    } catch (err) {
+      res.status.send("ERROR: " + err.message);
     }
   }
 );

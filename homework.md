@@ -133,3 +133,10 @@ Episode -12
 - What are the advantages and disadvantages of creating index?
 - Read this article about compound indexes - https://www.mongodb.com/docs/manual/core/indexes/index-types/index-compound/
 - ALWAYS THINK ABOUT CORNER CASES
+
+Episode -13
+- Write code with proper validation for thid POST API /request/review/:status/:requestId
+- Thought process POST vs GET API
+- Read about ref and populate - https://mongoosejs.com/docs/populate.html
+- Create GET API /user/request/received with all the checks
+
