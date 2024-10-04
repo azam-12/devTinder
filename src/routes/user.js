@@ -4,36 +4,72 @@ const userRouter = express.Router();
 const { userAuth } = require("../middleware/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 
+const USER_SAFE_DATA = "firstName lastName photoUrl age gender skills about";
+
 /**
  *  GET all the loggedIn User's connections requests
  */
-userRouter.get("/user/request/received", userAuth, async(req, res) => {
-    try {
-        const loggedInUser = req.user;
+userRouter.get("/user/request/received", userAuth, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
 
-        const connectionRequests = await ConnectionRequest.find({
-            toUserId: loggedInUser.id,
-            status: "interested"
-        }).populate(
-            "fromUserId",
-            "firstName lastName photoUrl age gender skills about"
-        );
+    const connectionRequests = await ConnectionRequest.find({
+      toUserId: loggedInUser.id,
+      status: "interested",
+    }).populate("fromUserId", USER_SAFE_DATA);
 
-        if(!connectionRequests){
-            return res.status(404).json({
-                message: "No connections exists!"
-            });
-        }
-
-        res.json({
-            message: "Following are the connections of the user!",
-            data: connectionRequests
-        });
-
-    } catch (err) {
-        res.status(400).send("ERROR: " + err.message);
+    if (!connectionRequests) {
+      return res.status(404).json({
+        message: "No connections exists!",
+      });
     }
+
+    res.json({
+      message: "Following are the connections of the user!",
+      data: connectionRequests,
+    });
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
+  }
 });
 
+/**
+ *  GET all the accepted requests of the user by him or by others
+ */
+userRouter.get("/user/connections", userAuth, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
+
+    const connectionRequests = await ConnectionRequest.find({
+      $or: [
+        { toUserId: loggedInUser._id, status: "accepted" }, 
+        { fromUserId: loggedInUser._id, status: "accepted" }
+    ],
+    })
+      .populate("fromUserId", USER_SAFE_DATA)
+      .populate("toUserId", USER_SAFE_DATA);
+
+    if (!connectionRequests) {
+      return res.json({ message: "No connections found!" });
+    }
+
+    console.log(connectionRequests);
+
+    const data = connectionRequests.map( (row) => {
+      if(row.fromUserId._id.toString() === loggedInUser._id.toString()){
+        return row.toUserId;
+      }
+      return row.fromUserId;
+    });
+
+
+    res.json({
+      message: "Below are all " + loggedInUser.firstName + "'s " + "connections",
+      data,
+    });
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
+  }
+});
 
 module.exports = userRouter;

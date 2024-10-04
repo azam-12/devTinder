@@ -139,4 +139,6 @@ Episode -13
 - Thought process POST vs GET API
 - Read about ref and populate - https://mongoosejs.com/docs/populate.html
 - Create GET API /user/request/received with all the checks
+- Create GET API /user/connections
+- 
 
