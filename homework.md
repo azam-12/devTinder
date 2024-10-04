@@ -134,11 +134,27 @@ Episode -12
 - Read this article about compound indexes - https://www.mongodb.com/docs/manual/core/indexes/index-types/index-compound/
 - ALWAYS THINK ABOUT CORNER CASES
 
+
 Episode -13
 - Write code with proper validation for thid POST API /request/review/:status/:requestId
 - Thought process POST vs GET API
 - Read about ref and populate - https://mongoosejs.com/docs/populate.html
 - Create GET API /user/request/received with all the checks
 - Create GET API /user/connections
-- 
 
+
+Episode -14
+- Logic for GET /feed API
+- Explore $nin, $ne, $and and others comparison query operators of MongoDB documentation
+- Pagination
+
+/feed?skip=1&limit=10   =>  first 10 users  =>  1-10    =>  .skip(0).limit(10)
+
+/feed?skip=2&limit=10   =>  second 10 users  =>  11-20    =>  .skip(10).limit(10)
+
+/feed?skip=3&limit=10   =>  third 10 users  =>  21-30    =>  .skip(20).limit(10)
+
+/feed?skip=4&limit=10   =>  fourth 10 users  =>  31-40    =>  .skip(30).limit(10)
+
+so we derive the formula as below:
+skip = (page - 1) * limit
