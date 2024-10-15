@@ -81,7 +81,9 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
   }
 });
 
-
+/**
+ *  GET connection feed for the logged in user
+ */
 userRouter.get("/user/feed", userAuth, async(req, res) => {
 
   const page = parseInt(req.query.page) || 1;
