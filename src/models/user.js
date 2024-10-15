@@ -59,7 +59,7 @@ const userSchema = new mongoose.Schema(
     },
     photoUrl: {
         type: String,
-        default: "",
+        default: "https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_640.png",
         validate(value){
             if(!validator.isURL(value)){
                 throw new Error("Invalid photoUrl: "+ value + "\n");

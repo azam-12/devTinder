@@ -101,7 +101,8 @@ userRouter.get("/user/feed", userAuth, async(req, res) => {
     // 3. already sent the connection
 
     /**
-     *  We first find all the connected users but the result consists of loggedInUser Id and other person user Id
+     *  1. his connection
+     *  We first find all the connected users but the result consists of loggedInUser Id and other connected person's user Id
      *  
      */
     const connectionRequests = await ConnectionRequest.find({
@@ -116,6 +117,7 @@ userRouter.get("/user/feed", userAuth, async(req, res) => {
     
     /**
      *  By definition a set cannot hold redundant entries so hideUsersFromFeed will have unique Ids.
+     *  Also we need them to convert to string since Id data type cannot be used for comparison
      */
     connectionRequests.forEach((req) => {
       hideUsersFromFeed.add(req.fromUserId.toString());
